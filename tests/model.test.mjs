@@ -142,7 +142,70 @@ const Model = context;
     assert.equal(privTopModel.barLeader.isGitHubLink, false);
 }
 
-// 5. Invalid payload rejection
+// 5. Upstream portwatch verification, GPU tags, evidence, provenOn, and missing repo
+{
+    const now = Date.parse("2026-11-25T19:00:00Z");
+    const sample = {
+        updated: "2026-11-25T19:00:00Z",
+        efforts: [
+            {
+                id: "dex",
+                name: "DexNom",
+                repo: "DexNom/VIctory",
+                tier: "tracked",
+                gpu: ["AMD", "InvalidGPU", "AMD"],
+                verification: "portwatch",
+                stats: { stars: 705, pushedAt: "2026-11-25T18:00:00Z" },
+                gta: { loads: 1, boots: 1, menu: 1, world: 1, playable: 1, story: 0.5, render: 0.9, fps: 3, stability: 0.7 }
+            },
+            {
+                id: "doomsday",
+                name: "Doomsday",
+                repo: null,
+                basedOn: [],
+                byline: "Working in private",
+                evidence: "Confirmed by PortWatch",
+                gpu: ["AMD", "NVIDIA"],
+                tier: "tracked",
+                verification: "portwatch",
+                gta: { loads: 1, boots: 1, menu: 1, world: 1, playable: 1, story: 0.5, render: 0.85, fps: 4, stability: 0.8 }
+            },
+            {
+                id: "early",
+                name: "EarlyLayer",
+                repo: "Org/early",
+                tier: "watchlist",
+                gpu: ["Intel"],
+                provenOn: "Minecraft Preview: playable",
+                stats: { stars: 10, missing: true, archived: true },
+                groundwork: { loader: 0.5, shaders: 0.2, graphics: 0.2, proven: 0.5 },
+                gta: {}
+            }
+        ]
+    };
+
+    const m = Model.buildModel(sample, false, now);
+    const dex = m.raceItems[0];
+    assert.equal(dex.score, 78);
+    assert.equal(dex.verification, "Verified by PortWatch");
+    assert.deepEqual(Array.from(dex.gpus), ["AMD"]);
+    assert.equal(dex.gpuText, "AMD");
+
+    const priv = m.topOverall;
+    assert.equal(priv.id, "doomsday");
+    assert.equal(priv.basedOnText, "");
+    assert.equal(priv.evidenceText, "Confirmed by PortWatch");
+    assert.deepEqual(Array.from(priv.gpus), ["AMD", "NVIDIA"]);
+    assert.equal(priv.gpuText, "AMD / NVIDIA");
+
+    const early = m.watchlistItems[0];
+    assert.equal(early.provenOn, "Minecraft Preview: playable");
+    assert.equal(early.repoMissing, true);
+    assert.equal(early.repoArchived, true);
+    assert.deepEqual(Array.from(early.gpus), ["Intel"]);
+}
+
+// 6. Invalid payload rejection
 {
     const bad = Model.buildModel({}, false, Date.now());
     assert.equal(bad.valid, false);

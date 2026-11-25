@@ -59,6 +59,8 @@ const STABILITY = {
     stable: { label: "Stable", value: 1 }
 };
 
+const GPU_BRANDS = ["AMD", "NVIDIA", "Intel", "Mac"];
+
 const LADDER = ["loads", "boots", "menu", "world", "playable"];
 const TICK = {
     groundwork: 0,
@@ -289,6 +291,26 @@ function buildBreakdown(effort, scored) {
     return { kind: "none", rows: [] };
 }
 
+function verificationLabel(v) {
+    if (v === "portwatch")
+        return "Verified by PortWatch";
+    if (v === "reproduced")
+        return "Reproduced";
+    return "Self-reported";
+}
+
+function normalizeGpus(raw) {
+    if (!Array.isArray(raw))
+        return [];
+    const out = [];
+    for (let i = 0; i < raw.length; i++) {
+        const g = String(raw[i] || "");
+        if (GPU_BRANDS.indexOf(g) !== -1 && out.indexOf(g) === -1)
+            out.push(g);
+    }
+    return out;
+}
+
 function normalizeEffort(effort, nameById, nowMs) {
     const scored = scoreEffort(effort);
     const isPriv = isPrivateBuild(effort);
@@ -299,6 +321,7 @@ function normalizeEffort(effort, nameById, nowMs) {
     const stabLabel = (STABILITY[stabKey] || STABILITY.unknown).label;
     const nukedObj = effort.nuked && typeof effort.nuked === "object" ? effort.nuked : null;
     const isNuked = !!nukedObj;
+    const gpus = normalizeGpus(effort.gpu);
 
     let basedOnText = "";
     if (isPriv && Array.isArray(effort.basedOn) && effort.basedOn.length > 0) {
@@ -319,14 +342,18 @@ function normalizeEffort(effort, nameById, nowMs) {
         displayRepo: isPriv ? (effort.byline || "Private build") : String(effort.repo),
         isPrivate: isPriv,
         basedOnText: basedOnText,
+        evidenceText: isPriv && effort.evidence ? String(effort.evidence) : "",
         tier: effort.tier === "watchlist" ? "watchlist" : "tracked",
         nuked: isNuked,
         nukedAt: nukedObj && nukedObj.at ? String(nukedObj.at) : "",
         nukedNote: nukedObj && nukedObj.note ? String(nukedObj.note) : "",
+        gpus: gpus,
+        gpuText: gpus.join(" / "),
         approach: String(effort.approach || ""),
         target: String(effort.target || ""),
         summary: String(effort.summary || ""),
-        verification: effort.verification === "reproduced" ? "Reproduced" : "Self-reported",
+        provenOn: effort.provenOn ? String(effort.provenOn) : "",
+        verification: verificationLabel(effort.verification),
         score: scored.score,
         scoreText: formatScore(scored.score),
         reached: scored.reached,
@@ -342,6 +369,8 @@ function normalizeEffort(effort, nameById, nowMs) {
         stars: Number(stats.stars) || 0,
         starsText: isPriv ? "Private" : formatCompactCount(stats.stars),
         forksText: formatCompactCount(stats.forks),
+        repoMissing: stats.missing === true,
+        repoArchived: stats.archived === true,
         pushedAgo: formatAgo(stats.pushedAt, nowMs),
         openUrl: openUrl,
         isGitHubLink: ghUrl.length > 0,

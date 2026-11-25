@@ -188,6 +188,7 @@ Item {
                         width: parent.width
                         text: (rowCard.effort.isPrivate ? "Private build" : rowCard.effort.repo)
                             + " • " + rowCard.effort.reachedLabel
+                            + (rowCard.effort.gpuText ? (" • " + rowCard.effort.gpuText) : "")
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.onSurfaceVariant
                         elide: Text.ElideRight

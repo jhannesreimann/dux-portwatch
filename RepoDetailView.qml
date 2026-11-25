@@ -262,6 +262,15 @@ Item {
                                     color: Theme.primary
                                     wrapMode: Text.WordWrap
                                 }
+
+                                StyledText {
+                                    visible: root.effort && root.effort.evidenceText.length > 0 && root.effort.evidenceText !== root.effort.verification
+                                    width: parent.width
+                                    text: root.effort ? ("Evidence: " + root.effort.evidenceText) : ""
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.primary
+                                    wrapMode: Text.WordWrap
+                                }
                             }
 
                             Column {
@@ -343,8 +352,16 @@ Item {
                                         tags.push(root.effort.approach);
                                     if (root.effort.target)
                                         tags.push(root.effort.target);
+                                    if (Array.isArray(root.effort.gpus)) {
+                                        for (let i = 0; i < root.effort.gpus.length; i++)
+                                            tags.push(root.effort.gpus[i]);
+                                    }
                                     if (root.effort.verification)
                                         tags.push(root.effort.verification);
+                                    if (root.effort.repoMissing && !root.effort.nuked)
+                                        tags.push("Repo gone (404)");
+                                    if (root.effort.repoArchived)
+                                        tags.push("Archived");
                                     if (root.effort.pushedAgo)
                                         tags.push("Updated " + root.effort.pushedAgo);
                                     return tags;
@@ -503,6 +520,15 @@ Item {
                                     fillColor: root.effort && root.effort.breakdownKind === "tracks" ? Theme.primary : Theme.secondary
                                 }
                             }
+                        }
+
+                        StyledText {
+                            visible: root.effort && root.effort.provenOn.length > 0
+                            width: parent.width
+                            text: root.effort ? ("Proven on: " + root.effort.provenOn) : ""
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.onSurfaceVariant
+                            wrapMode: Text.WordWrap
                         }
                     }
                 }
