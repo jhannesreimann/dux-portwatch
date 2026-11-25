@@ -35,7 +35,7 @@ Item {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: Theme.spacingS
-            spacing: 1
+            spacing: Theme.spacingXXS
 
             StyledText {
                 text: tile.label
@@ -113,15 +113,16 @@ Item {
                     spacing: Theme.spacingS
 
                     Rectangle {
-                        width: 6
-                        height: 6
+                        id: bulletDot
+                        width: Theme.spacingXS + Theme.spacingXXS
+                        height: width
                         radius: width / 2
                         color: card.accentColor
-                        y: 6
+                        y: Theme.spacingXS + Theme.spacingXXS
                     }
 
                     StyledText {
-                        width: cardCol.width - 6 - Theme.spacingS
+                        width: cardCol.width - bulletDot.width - Theme.spacingS
                         text: modelData
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.onSurface
@@ -138,7 +139,6 @@ Item {
         width: parent.width
         spacing: Theme.spacingS
 
-        // Navigation & external link bar
         Row {
             width: parent.width
             spacing: Theme.spacingS
@@ -181,7 +181,7 @@ Item {
 
             Item {
                 width: Math.max(0, parent.width - backBtn.width - openRepoBtn.width - Theme.spacingS * 2)
-                height: 1
+                height: Theme.outlineWidth
             }
 
             DButton {
@@ -202,7 +202,7 @@ Item {
             id: detailFlick
             visible: root.effort !== null
             width: parent.width
-            height: Math.min(430, detailContentCol.implicitHeight)
+            height: Math.min(Theme.listItemTwoLineHeight * 6, detailContentCol.implicitHeight)
             contentWidth: width
             contentHeight: detailContentCol.implicitHeight
             clip: true
@@ -212,7 +212,6 @@ Item {
                 width: detailFlick.width
                 spacing: Theme.spacingS
 
-                // Overview & live stats card
                 StyledRect {
                     width: parent.width
                     height: overviewCol.implicitHeight + Theme.spacingM * 2
@@ -235,7 +234,7 @@ Item {
 
                             Column {
                                 width: parent.width - detailScoreCol.width - Theme.spacingS
-                                spacing: 2
+                                spacing: Theme.spacingXXS
                                 anchors.verticalCenter: parent.verticalCenter
 
                                 StyledText {
@@ -268,7 +267,7 @@ Item {
                             Column {
                                 id: detailScoreCol
                                 width: Math.max(detailPct.implicitWidth, detailStage.implicitWidth)
-                                spacing: 2
+                                spacing: Theme.spacingXXS
                                 anchors.verticalCenter: parent.verticalCenter
 
                                 NumericText {
@@ -293,13 +292,12 @@ Item {
 
                         ProgressBarTrack {
                             width: parent.width
-                            barHeight: 7
+                            barHeight: Theme.spacingXS + Theme.spacingXXS
                             fraction: root.effort ? root.effort.score / 100 : 0
                             fillColor: root.effort && root.effort.nuked ? Theme.error : Theme.primary
                             showPlayableMark: true
                         }
 
-                        // Three crisp metric tiles: FPS right now, Stability, Stars/Code
                         Row {
                             id: metricRow
                             width: parent.width
@@ -332,7 +330,6 @@ Item {
                             }
                         }
 
-                        // Metadata tags
                         Flow {
                             width: parent.width
                             spacing: Theme.spacingXS
@@ -356,7 +353,7 @@ Item {
                                 delegate: Rectangle {
                                     required property string modelData
                                     width: tagLbl.implicitWidth + Theme.spacingS * 2
-                                    height: 20
+                                    height: Math.max(Theme.iconSizeMedium, tagLbl.implicitHeight + Theme.spacingXXS * 2)
                                     radius: Theme.cornerRadiusS
                                     color: Theme.chipSurfaceNested
 
@@ -383,7 +380,6 @@ Item {
                     }
                 }
 
-                // Takedown / offline banner
                 StyledRect {
                     visible: root.effort && root.effort.nuked
                     width: parent.width
@@ -445,7 +441,6 @@ Item {
                     items: root.effort ? root.effort.cons : []
                 }
 
-                // Scoring breakdown card (Tracks or Groundwork)
                 StyledRect {
                     visible: root.effort && root.effort.breakdownRows && root.effort.breakdownRows.length > 0
                     width: parent.width
@@ -478,7 +473,7 @@ Item {
                             delegate: Column {
                                 required property var modelData
                                 width: parent.width
-                                spacing: 3
+                                spacing: Theme.spacingXXS
 
                                 Row {
                                     width: parent.width
@@ -503,7 +498,7 @@ Item {
 
                                 ProgressBarTrack {
                                     width: parent.width
-                                    barHeight: 4
+                                    barHeight: Theme.spacingXS
                                     fraction: modelData.fraction
                                     fillColor: root.effort && root.effort.breakdownKind === "tracks" ? Theme.primary : Theme.secondary
                                 }
@@ -512,7 +507,6 @@ Item {
                     }
                 }
 
-                // Proof link button if present
                 DButton {
                     visible: root.effort && root.effort.proofUrl.length > 0
                     width: parent.width

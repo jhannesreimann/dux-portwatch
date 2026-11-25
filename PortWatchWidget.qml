@@ -176,17 +176,28 @@ PluginComponent {
             fetchTrackerData(false);
     }
 
+    function ensureOwner() {
+        if (root.surfaceLive && !globalOwnerId.value)
+            globalOwnerId.set(root.instanceId);
+    }
+
     function _bootstrapState() {
         if (pluginService && globalRawData.value === null) {
             const cached = pluginService.loadPluginState("portwatchVi", "cachedTracker", null);
             if (cached && Array.isArray(cached.efforts))
                 globalRawData.set(cached);
         }
-        if (!globalOwnerId.value)
-            globalOwnerId.set(root.instanceId);
+        ensureOwner();
     }
 
     onPluginServiceChanged: _bootstrapState()
+
+    onSurfaceLiveChanged: {
+        if (root.surfaceLive)
+            ensureOwner();
+        else if (globalOwnerId.value === root.instanceId)
+            globalOwnerId.set("");
+    }
 
     Component.onCompleted: {
         _bootstrapState();
@@ -194,9 +205,25 @@ PluginComponent {
     }
 
     Component.onDestruction: {
+        ownerClaimTimer.stop();
         Proc.release("portwatchVi.fetch");
         if (globalOwnerId.value === root.instanceId)
             globalOwnerId.set("");
+    }
+
+    Connections {
+        target: globalOwnerId
+        function onValueChanged() {
+            if (root.surfaceLive && !globalOwnerId.value)
+                ownerClaimTimer.restart();
+        }
+    }
+
+    Timer {
+        id: ownerClaimTimer
+        interval: 0
+        repeat: false
+        onTriggered: root.ensureOwner()
     }
 
     Timer {
@@ -204,8 +231,7 @@ PluginComponent {
         interval: 250
         repeat: false
         onTriggered: {
-            if (!globalOwnerId.value)
-                globalOwnerId.set(root.instanceId);
+            root.ensureOwner();
             if (globalOwnerId.value === root.instanceId)
                 root.fetchTrackerData(false);
         }
@@ -247,7 +273,7 @@ PluginComponent {
             StyledText {
                 visible: root.horizontalRepoLabel.length > 0
                 text: root.horizontalRepoLabel
-                width: Math.min(implicitWidth, 140)
+                width: Math.min(implicitWidth, Theme.fontSizeMedium * 10)
                 elide: Text.ElideRight
                 font.pixelSize: root.textSize
                 font.weight: Font.Medium
@@ -288,7 +314,7 @@ PluginComponent {
         }
     }
 
-    popoutWidth: 448
+    popoutWidth: Theme.buttonHeightM * 8
 
     popoutContent: Component {
         PopoutComponent {

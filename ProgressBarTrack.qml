@@ -10,7 +10,7 @@ Rectangle {
     property color fillColor: Theme.primary
     property color trackColor: Theme.withAlpha(Theme.outlineVariant, 0.45)
     property bool showPlayableMark: false
-    property real barHeight: 6
+    property real barHeight: Theme.spacingXS + Theme.spacingXXS
 
     readonly property real clampedFraction: Math.max(0, Math.min(1, Number(fraction) || 0))
 
@@ -42,7 +42,7 @@ Rectangle {
         x: Math.round(parent.width * 0.5 - width / 2)
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        width: 2
+        width: Theme.spacingXXS
         color: Theme.withAlpha(Theme.onSurface, 0.35)
     }
 }

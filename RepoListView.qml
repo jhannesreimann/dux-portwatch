@@ -46,7 +46,7 @@ Item {
         readonly property bool selected: root.activeFilter === modelData.key
 
         width: (filterRow.width - filterRow.spacing * 2) / 3
-        height: 30
+        height: Theme.buttonHeightXS
         radius: Theme.fullRadius(width, height)
         color: chip.selected ? Theme.selectedContainer : Theme.chipSurface
         border.width: Theme.outlineWidth
@@ -79,7 +79,7 @@ Item {
             : (effort.playable ? Theme.primary : Theme.secondary)
 
         width: listColumn.width
-        height: rowInner.implicitHeight + Theme.spacingS * 2 + 4
+        height: rowInner.implicitHeight + Theme.spacingS * 2 + Theme.spacingXS
         radius: Theme.cornerRadiusM
         color: isTop ? Theme.withAlpha(Theme.primaryContainer, 0.38) : Theme.chipSurface
         border.width: Theme.outlineWidth
@@ -106,8 +106,8 @@ Item {
 
                 Rectangle {
                     id: rankBox
-                    width: 28
-                    height: 28
+                    width: Theme.iconSize + Theme.spacingXS
+                    height: Theme.iconSize + Theme.spacingXS
                     radius: Theme.cornerRadiusS
                     anchors.verticalCenter: parent.verticalCenter
                     color: rowCard.effort.nuked
@@ -136,7 +136,7 @@ Item {
 
                 Column {
                     width: parent.width - rankBox.width - rightStats.width - Theme.spacingS * 2
-                    spacing: 1
+                    spacing: Theme.spacingXXS
                     anchors.verticalCenter: parent.verticalCenter
 
                     Row {
@@ -163,7 +163,7 @@ Item {
 
                             Row {
                                 anchors.centerIn: parent
-                                spacing: 2
+                                spacing: Theme.spacingXXS
 
                                 DIcon {
                                     id: privIcon
@@ -202,7 +202,7 @@ Item {
                     Rectangle {
                         visible: rowCard.effort.hasFps
                         width: fpsRowText.implicitWidth + Theme.spacingS
-                        height: 20
+                        height: Math.max(Theme.iconSizeMedium, fpsRowText.implicitHeight + Theme.spacingXXS * 2)
                         radius: Theme.cornerRadiusS
                         color: Theme.withAlpha(Theme.primary, 0.14)
                         anchors.verticalCenter: parent.verticalCenter
@@ -238,7 +238,7 @@ Item {
 
             ProgressBarTrack {
                 width: parent.width
-                barHeight: 4
+                barHeight: Theme.spacingXS
                 fraction: rowCard.effort.score / 100
                 fillColor: rowCard.barAccent
             }
@@ -250,7 +250,6 @@ Item {
         width: parent.width
         spacing: Theme.spacingS
 
-        // Top hero summary card for the leading repo
         StyledRect {
             id: heroCard
             visible: root.leader !== null
@@ -284,7 +283,7 @@ Item {
 
                     Column {
                         width: parent.width - heroScoreCol.width - Theme.spacingS
-                        spacing: 2
+                        spacing: Theme.spacingXXS
                         anchors.verticalCenter: parent.verticalCenter
 
                         Row {
@@ -329,7 +328,7 @@ Item {
                     Column {
                         id: heroScoreCol
                         width: Math.max(heroPct.implicitWidth, heroFpsRow.implicitWidth)
-                        spacing: 3
+                        spacing: Theme.spacingXXS
                         anchors.verticalCenter: parent.verticalCenter
 
                         NumericText {
@@ -349,7 +348,7 @@ Item {
                             Rectangle {
                                 visible: root.leader && root.leader.hasFps
                                 width: heroFpsLabel.implicitWidth + Theme.spacingS
-                                height: heroFpsLabel.implicitHeight + 4
+                                height: heroFpsLabel.implicitHeight + Theme.spacingXS
                                 radius: Theme.cornerRadiusS
                                 color: Theme.primaryContainer
 
@@ -375,7 +374,7 @@ Item {
 
                 ProgressBarTrack {
                     width: parent.width
-                    barHeight: 7
+                    barHeight: Theme.spacingXS + Theme.spacingXXS
                     fraction: root.leader ? root.leader.score / 100 : 0
                     showPlayableMark: true
                 }
@@ -393,7 +392,6 @@ Item {
             }
         }
 
-        // Filter segmented chips
         Row {
             id: filterRow
             width: parent.width
@@ -410,7 +408,6 @@ Item {
             }
         }
 
-        // Error banner when offline / fetch failed
         StyledRect {
             visible: root.errorText.length > 0
             width: parent.width
@@ -446,17 +443,16 @@ Item {
                     id: retryBtn
                     text: "Retry"
                     variant: "text"
-                    buttonHeight: Theme.buttonHeightXXS
+                    buttonHeight: Theme.buttonHeightXS
                     onClicked: root.retryRequested()
                 }
             }
         }
 
-        // Loading state (only when no cached data yet)
         StyledRect {
             visible: root.isLoading && (!root.modelDataObj || !root.modelDataObj.valid)
             width: parent.width
-            height: 140
+            height: Theme.listItemTwoLineHeight * 2
             radius: Theme.cornerRadiusM
             color: Theme.cardSurface
 
@@ -479,11 +475,10 @@ Item {
             }
         }
 
-        // Empty list fallback
         StyledRect {
             visible: !root.isLoading && root.modelDataObj && root.modelDataObj.valid && root.currentItems.length === 0
             width: parent.width
-            height: 80
+            height: Theme.menuItemHeight * 2
             radius: Theme.cornerRadiusM
             color: Theme.cardSurface
 
@@ -495,12 +490,11 @@ Item {
             }
         }
 
-        // Scrollable repository list
         DFlickable {
             id: listFlick
             visible: root.currentItems.length > 0
             width: parent.width
-            height: Math.min(300, listColumn.implicitHeight)
+            height: Math.min(Theme.buttonHeightM * 5 + Theme.spacingXL, listColumn.implicitHeight)
             contentWidth: width
             contentHeight: listColumn.implicitHeight
             clip: true
