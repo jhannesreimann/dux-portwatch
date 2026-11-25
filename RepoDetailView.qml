@@ -39,7 +39,7 @@ Item {
 
             StyledText {
                 text: tile.label
-                font.pixelSize: Theme.fontSizeSmall - 2
+                font.pixelSize: Theme.fontSizeSmall
                 color: Theme.onSurfaceVariant
             }
 
@@ -82,7 +82,7 @@ Item {
 
                 DIcon {
                     name: card.iconName
-                    size: Theme.iconSizeSmall + 2
+                    size: Theme.iconSizeMedium
                     color: card.accentColor
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -258,7 +258,7 @@ Item {
                                     visible: root.effort && root.effort.basedOnText.length > 0
                                     width: parent.width
                                     text: root.effort ? root.effort.basedOnText : ""
-                                    font.pixelSize: Theme.fontSizeSmall - 1
+                                    font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.primary
                                     wrapMode: Text.WordWrap
                                 }
@@ -274,7 +274,7 @@ Item {
                                     id: detailPct
                                     anchors.right: parent.right
                                     text: root.effort ? root.effort.scoreText : "0%"
-                                    font.pixelSize: Theme.fontSizeXLarge + 2
+                                    font.pixelSize: Theme.fontSizeXLarge
                                     font.weight: Theme.fontWeightBold
                                     color: root.effort && root.effort.nuked ? Theme.error : Theme.primary
                                 }
@@ -283,7 +283,7 @@ Item {
                                     id: detailStage
                                     anchors.right: parent.right
                                     text: root.effort ? root.effort.reachedLabel : ""
-                                    font.pixelSize: Theme.fontSizeSmall - 1
+                                    font.pixelSize: Theme.fontSizeSmall
                                     font.weight: Theme.fontWeightMedium
                                     color: Theme.onSurfaceVariant
                                 }
@@ -361,7 +361,7 @@ Item {
                                         id: tagLbl
                                         anchors.centerIn: parent
                                         text: modelData
-                                        font.pixelSize: Theme.fontSizeSmall - 2
+                                        font.pixelSize: Theme.fontSizeSmall
                                         color: Theme.onSurfaceVariant
                                     }
                                 }
@@ -418,7 +418,7 @@ Item {
                             visible: root.effort && root.effort.nukedNote.length > 0
                             width: parent.width
                             text: root.effort ? root.effort.nukedNote : ""
-                            font.pixelSize: Theme.fontSizeSmall - 1
+                            font.pixelSize: Theme.fontSizeSmall
                             color: Theme.onErrorContainer
                             wrapMode: Text.WordWrap
                         }
@@ -481,7 +481,7 @@ Item {
                                     StyledText {
                                         width: parent.width * 0.45
                                         text: modelData.label
-                                        font.pixelSize: Theme.fontSizeSmall - 1
+                                        font.pixelSize: Theme.fontSizeSmall
                                         color: Theme.onSurface
                                         elide: Text.ElideRight
                                     }
@@ -489,7 +489,7 @@ Item {
                                     StyledText {
                                         width: parent.width * 0.55
                                         text: modelData.valueText
-                                        font.pixelSize: Theme.fontSizeSmall - 1
+                                        font.pixelSize: Theme.fontSizeSmall
                                         color: Theme.onSurfaceVariant
                                         horizontalAlignment: Text.AlignRight
                                         elide: Text.ElideRight

@@ -120,7 +120,7 @@ Item {
                         visible: !rowCard.effort.nuked && rowCard.effort.rank > 0
                         anchors.centerIn: parent
                         text: "#" + rowCard.effort.rank
-                        font.pixelSize: Theme.fontSizeSmall - 1
+                        font.pixelSize: Theme.fontSizeSmall
                         font.weight: Theme.fontWeightBold
                         color: rowCard.effort.rank <= 3 ? Theme.onPrimaryContainer : Theme.onSurfaceVariant
                     }
@@ -129,7 +129,7 @@ Item {
                         visible: rowCard.effort.nuked
                         anchors.centerIn: parent
                         name: "block"
-                        size: Theme.iconSizeSmall - 2
+                        size: Theme.iconSizeSmall
                         color: Theme.onErrorContainer
                     }
                 }
@@ -168,7 +168,7 @@ Item {
                                 DIcon {
                                     id: privIcon
                                     name: "lock"
-                                    size: Theme.fontSizeSmall - 2
+                                    size: Theme.iconSizeSmall
                                     color: Theme.onSecondaryContainer
                                     anchors.verticalCenter: parent.verticalCenter
                                 }
@@ -176,7 +176,7 @@ Item {
                                 StyledText {
                                     id: privLbl
                                     text: "Private"
-                                    font.pixelSize: Theme.fontSizeSmall - 2
+                                    font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.onSecondaryContainer
                                     anchors.verticalCenter: parent.verticalCenter
                                 }
@@ -188,7 +188,7 @@ Item {
                         width: parent.width
                         text: (rowCard.effort.isPrivate ? "Private build" : rowCard.effort.repo)
                             + " • " + rowCard.effort.reachedLabel
-                        font.pixelSize: Theme.fontSizeSmall - 1
+                        font.pixelSize: Theme.fontSizeSmall
                         color: Theme.onSurfaceVariant
                         elide: Text.ElideRight
                     }
@@ -211,7 +211,7 @@ Item {
                             id: fpsRowText
                             anchors.centerIn: parent
                             text: rowCard.effort.fpsText
-                            font.pixelSize: Theme.fontSizeSmall - 1
+                            font.pixelSize: Theme.fontSizeSmall
                             font.weight: Theme.fontWeightMedium
                             color: Theme.primary
                         }
@@ -292,7 +292,7 @@ Item {
 
                             StyledText {
                                 text: "TOP REPO"
-                                font.pixelSize: Theme.fontSizeSmall - 1
+                                font.pixelSize: Theme.fontSizeSmall
                                 font.weight: Theme.fontWeightBold
                                 color: Theme.primary
                                 anchors.verticalCenter: parent.verticalCenter
@@ -301,7 +301,7 @@ Item {
                             StyledText {
                                 visible: root.leader !== null
                                 text: "• " + (root.leader ? root.leader.reachedLabel : "")
-                                font.pixelSize: Theme.fontSizeSmall - 1
+                                font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.onSurfaceVariant
                                 anchors.verticalCenter: parent.verticalCenter
                             }
@@ -335,7 +335,7 @@ Item {
                             id: heroPct
                             anchors.right: parent.right
                             text: root.leader ? root.leader.scoreText : "0%"
-                            font.pixelSize: Theme.fontSizeXLarge + 2
+                            font.pixelSize: Theme.fontSizeXLarge
                             font.weight: Theme.fontWeightBold
                             color: Theme.primary
                         }
@@ -356,7 +356,7 @@ Item {
                                     id: heroFpsLabel
                                     anchors.centerIn: parent
                                     text: root.leader ? root.leader.fpsText : ""
-                                    font.pixelSize: Theme.fontSizeSmall - 1
+                                    font.pixelSize: Theme.fontSizeSmall
                                     font.weight: Theme.fontWeightMedium
                                     color: Theme.onPrimaryContainer
                                 }
@@ -385,7 +385,7 @@ Item {
                     text: root.topOverall
                         ? ("Private build leading overall: " + root.topOverall.name + " (" + root.topOverall.scoreText + ", " + root.topOverall.fpsText + ")")
                         : ""
-                    font.pixelSize: Theme.fontSizeSmall - 1
+                    font.pixelSize: Theme.fontSizeSmall
                     color: Theme.onSurfaceVariant
                     elide: Text.ElideRight
                 }
