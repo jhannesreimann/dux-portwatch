@@ -245,14 +245,6 @@ PluginComponent {
         onTriggered: root.fetchTrackerData(false)
     }
 
-    Timer {
-        id: relativeTimeTimer
-        interval: 60 * 1000
-        repeat: true
-        running: root.surfaceLive && root.hasData
-        onTriggered: root._relativeTick++
-    }
-
     pillRightClickAction: () => {
         root.fetchTrackerData(true);
         if (typeof ToastService !== "undefined")
@@ -365,6 +357,14 @@ PluginComponent {
                         root.maybeBackgroundRefresh();
                     }
                 }
+            }
+
+            Timer {
+                id: relativeTimeTimer
+                interval: 60 * 1000
+                repeat: true
+                running: root.hasData && popout.parentPopout !== null && popout.parentPopout.shouldBeVisible
+                onTriggered: root._relativeTick++
             }
 
             RepoListView {
