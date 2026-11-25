@@ -1,0 +1,24 @@
+{
+  "$schema": "https://github.com/duxlabs-dev/dux-shell/raw/refs/heads/master/quickshell/PLUGINS/plugin-schema.json",
+  "id": "portwatchVi",
+  "name": "PortWatch VI",
+  "description": "Track GTA VI PC port progress, FPS, and repo pros/cons from 4lwayz/portwatch-vi in DankBar",
+  "version": "1.0.0",
+  "author": "jhannesreimann",
+  "license": "MIT",
+  "type": "widget",
+  "capabilities": [
+    "dankbar-widget"
+  ],
+  "component": "./PortWatchWidget.qml",
+  "settings": "./PortWatchSettings.qml",
+  "icon": "sports_esports",
+  "requires_dms": ">=2.0.0",
+  "dependencies": [],
+  "permissions": [
+    "settings_read",
+    "settings_write",
+    "process",
+    "network"
+  ]
+}
