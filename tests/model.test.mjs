@@ -153,6 +153,7 @@ const Model = context;
                 name: "DexNom",
                 repo: "DexNom/VIctory",
                 tier: "tracked",
+                basedOn: ["early"],
                 gpu: ["AMD", "InvalidGPU", "AMD"],
                 verification: "portwatch",
                 stats: { stars: 705, pushedAt: "2026-11-25T18:00:00Z" },
@@ -187,6 +188,7 @@ const Model = context;
     const m = Model.buildModel(sample, false, now);
     const dex = m.raceItems[0];
     assert.equal(dex.score, 78);
+    assert.equal(dex.basedOnText, "Based on EarlyLayer");
     assert.equal(dex.verification, "Verified by PortWatch");
     assert.deepEqual(Array.from(dex.gpus), ["AMD"]);
     assert.equal(dex.gpuText, "AMD");

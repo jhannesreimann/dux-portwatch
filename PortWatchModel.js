@@ -324,7 +324,7 @@ function normalizeEffort(effort, nameById, nowMs) {
     const gpus = normalizeGpus(effort.gpu);
 
     let basedOnText = "";
-    if (isPriv && Array.isArray(effort.basedOn) && effort.basedOn.length > 0) {
+    if (Array.isArray(effort.basedOn) && effort.basedOn.length > 0) {
         const names = effort.basedOn.map(id => nameById[id] || id);
         basedOnText = "Based on " + names.join(", ");
     }

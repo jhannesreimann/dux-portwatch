@@ -3,7 +3,7 @@
   "id": "portwatchVi",
   "name": "PortWatch VI",
   "description": "Track GTA VI PC port progress, FPS, and repo pros/cons from 4lwayz/portwatch-vi in DankBar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "jhannesreimann",
   "license": "MIT",
   "type": "widget",
